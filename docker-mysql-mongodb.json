@@ -1,0 +1,37 @@
+{
+  "version": "3.9",
+  "services": {
+    "db": {
+      "image": "mysql:latest",
+      "container_name": "mysqldb",
+      "restart": "unless-stopped",
+      "volumes": [
+        "db_data:/var/lib/mysql"
+      ],
+      "environment": {
+        "MYSQL_DATABASE": "freepass_cms",
+        "MYSQL_USER": "freepassuser",
+        "MYSQL_PASSWORD_FILE": "/run/secrets/db_password",
+        "MYSQL_ROOT_PASSWORD_FILE": "/run/secrets/db_root_password"
+      },
+      "ports": [
+        "3307:3306"
+      ],
+      "secrets": [
+        "db_root_password",
+        "db_password"
+      ]
+    }
+  },
+  "secrets": {
+    "db_password": {
+      "file": "db_password.txt"
+    },
+    "db_root_password": {
+      "file": "db_root_password.txt"
+    }
+  },
+  "volumes": {
+    "db_data": null
+  }
+}
